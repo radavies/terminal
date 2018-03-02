@@ -1,0 +1,8 @@
+.TerminalContainer {
+  width: 50%;
+  background-color: black;
+  margin: 2rem auto;
+  min-height: 800px;
+  padding: 1rem;
+  border: 0.4rem solid #202020;
+}

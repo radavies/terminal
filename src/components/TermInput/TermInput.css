@@ -1,0 +1,21 @@
+form {
+  width: 100%;
+}
+
+label {
+  color: greenyellow;
+  padding-right: 1rem;
+}
+
+input {
+  width: 96%;
+  border: none;
+  color: greenyellow;
+  background-color: black;
+  font-family: 'VT323', monospace;
+  font-size: 1.25rem;
+}
+
+input:focus {
+  outline: none;
+}

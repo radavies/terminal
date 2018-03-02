@@ -1,10 +1,12 @@
 import React from 'react';
-import TermContainer from '../../containers/termContainer'
+import TermContainer from '../../containers/TermContainer';
+
+import './MainPage.css';
 
 const MainPage = props => (
-    <div class="App">
-        <TermContainer/>
-    </div>
+  <div className="TerminalContainer">
+    <TermContainer />
+  </div>
 );
 
 export default MainPage;

@@ -1,19 +1,49 @@
 import React, { Component } from 'react';
-import Term from '../components/term/term'
+import TermInput from '../components/TermInput/TermInput';
+import TermOutput from '../components/TermOutput/TermOutput';
 
-const TermContainer = (props) => {
+class TermContainer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      termInput: '',
+      termOutput: []
+    };
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onTermInputChange = this.onTermInputChange.bind(this);
+  }
+
+  onTermInputChange(termInput) {
+    this.setState(() => ({ termInput }));
+  }
+
+  onSubmit(e) {
+    const { termInput, termOutput } = this.state;
+    e.preventDefault();
+    termOutput.push(termInput);
+    this.setState(() => ({ termOutput, termInput: '' }));
+  }
+
+  render() {
+    const { termInput, termOutput } = this.state;
+
+    const outputElements = termOutput.map(output => (
+      <TermOutput termOutput={output} />
+    ));
+
     return (
       <div>
-        <header className="App-header">
-          <h1 className="App-title">Welcome to Reactz</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <Term />
-        <Term />
+        <TermInput
+          termInput={termInput}
+          onSubmit={this.onSubmit}
+          onTermInputChange={this.onTermInputChange}
+        />
+        {outputElements.reverse()}
       </div>
     );
+  }
 }
 
 export default TermContainer;
