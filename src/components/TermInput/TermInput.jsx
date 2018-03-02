@@ -8,7 +8,7 @@ const TermInput = props => {
 
   return (
     <form onSubmit={onSubmit}>
-      <label for="termInput">></label>
+      <label htmlFor="termInput">></label>
       <input
         id="termInput"
         name="termInput"

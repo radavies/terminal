@@ -29,9 +29,13 @@ class TermContainer extends Component {
   render() {
     const { termInput, termOutput } = this.state;
 
-    const outputElements = termOutput.map(output => (
-      <TermOutput termOutput={output} />
-    ));
+    let counter = 0;
+    let length = termOutput.length;
+    const outputElements = termOutput.map((output) => {
+      counter += 1;
+      const isLatest = counter === length
+      return <TermOutput termOutput={output} isLatest={isLatest} key={counter} />
+    });
 
     return (
       <div>
