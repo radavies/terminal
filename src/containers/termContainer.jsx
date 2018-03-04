@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+
+import { parseCommand } from '../logic/CommandParser';
+import { buildOutputObject } from '../logic/utils';
+
 import TermInput from '../components/TermInput/TermInput';
 import TermOutput from '../components/TermOutput/TermOutput';
 
@@ -20,9 +24,14 @@ class TermContainer extends Component {
   }
 
   onSubmit(e) {
-    const { termInput, termOutput } = this.state;
+    let { termInput, termOutput } = this.state;
     e.preventDefault();
-    termOutput.push(termInput);
+    const forOutput = parseCommand(termInput);
+    termOutput.push(forOutput);
+    termOutput.push(buildOutputObject(termInput, false, true));
+    if (forOutput.print === 'CLEAR') {
+      termOutput = [];
+    }
     this.setState(() => ({ termOutput, termInput: '' }));
   }
 
@@ -31,10 +40,18 @@ class TermContainer extends Component {
 
     let counter = 0;
     let length = termOutput.length;
-    const outputElements = termOutput.map((output) => {
+    const outputElements = termOutput.map(output => {
       counter += 1;
-      const isLatest = counter === length
-      return <TermOutput termOutput={output} isLatest={isLatest} key={counter} />
+      const isLatest = counter === length;
+      return (
+        <TermOutput
+          termOutput={output.print}
+          isLatest={isLatest}
+          key={counter}
+          isError={output.isError}
+          addCarrot={output.addCarrot}
+        />
+      );
     });
 
     return (

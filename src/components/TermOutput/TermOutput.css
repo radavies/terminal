@@ -3,6 +3,10 @@
   margin: 0.4rem 0;
 }
 
+.error {
+  color: rgb(255, 47, 47);
+}
+
 /*
 .latest{
   overflow: hidden; 
