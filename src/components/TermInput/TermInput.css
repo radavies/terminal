@@ -4,11 +4,11 @@ form {
 
 label {
   color: greenyellow;
-  padding-right: 1rem;
+  padding-right: 0.5rem;
 }
 
 input {
-  width: 96%;
+  width: 90%;
   border: none;
   color: greenyellow;
   background-color: black;

@@ -6,16 +6,16 @@ const notACommand =
 const anErrorOccured = 'An error occured while processing your command.';
 
 function parseCommand(input) {
-  let output = buildOutputObject("'" + input + "'" + notACommand, false, false);
+  let output = [
+    buildOutputObject("'" + input + "'" + notACommand, false, false)
+  ];
   const commandsFiltered = commands.filter(commandFilter(input));
   if (commandsFiltered !== null && commandsFiltered.length !== 0) {
     const commandToUse = commandsFiltered[0];
     if (commandToUse.printOutput) {
-      output = buildOutputObject(
-        commandToUse.output,
-        commandToUse.isError,
-        false
-      );
+      output = [
+        buildOutputObject(commandToUse.output, commandToUse.isError, false)
+      ];
     } else {
       output = getCommandFunctionOutput(commandToUse, input);
     }

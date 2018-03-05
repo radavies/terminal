@@ -10,6 +10,7 @@ const TermInput = props => {
     <form onSubmit={onSubmit}>
       <label htmlFor="termInput">></label>
       <input
+        ref={props.inputRef}
         id="termInput"
         name="termInput"
         value={termInput}
@@ -23,13 +24,15 @@ const TermInput = props => {
 TermInput.propTypes = {
   termInput: PropTypes.string,
   onSubmit: PropTypes.func,
-  onTermInputChange: PropTypes.func
+  onTermInputChange: PropTypes.func,
+  inputRef: PropTypes.func
 };
 
 TermInput.defaultProps = {
   termInput: '',
   onSubmit: () => null,
-  onTermInputChange: () => null
+  onTermInputChange: () => null,
+  inputRef: () => null
 };
 
 export default TermInput;

@@ -27,11 +27,22 @@ class TermContainer extends Component {
     let { termInput, termOutput } = this.state;
     e.preventDefault();
     const forOutput = parseCommand(termInput);
-    termOutput.push(forOutput);
-    termOutput.push(buildOutputObject(termInput, false, true));
-    if (forOutput.print === 'CLEAR') {
-      termOutput = [];
+
+    let cleared = false;
+    forOutput.forEach(outputObject => {
+      if (!cleared) {
+        if (outputObject.print === 'CLEAR') {
+          termOutput = [];
+          cleared = true;
+        } else {
+          termOutput.push(outputObject);
+        }
+      }
+    });
+    if (!cleared) {
+      termOutput.push(buildOutputObject(termInput, false, true));
     }
+
     this.setState(() => ({ termOutput, termInput: '' }));
   }
 
@@ -60,6 +71,7 @@ class TermContainer extends Component {
           termInput={termInput}
           onSubmit={this.onSubmit}
           onTermInputChange={this.onTermInputChange}
+          inputRef={this.props.inputRef}
         />
         {outputElements.reverse()}
       </div>

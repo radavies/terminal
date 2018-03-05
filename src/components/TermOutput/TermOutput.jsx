@@ -13,9 +13,9 @@ const TermOutput = props => {
     cssClass += ' error';
   }
 
-  let carrot = '> ';
-  if (!addCarrot) {
-    carrot = '';
+  let carrot = '';
+  if (addCarrot) {
+    carrot = '> ';
   }
   return (
     <p className={cssClass}>

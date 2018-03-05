@@ -130,22 +130,33 @@ const commands = [
     output: 'SHOW-HELP',
     help: 'Show help.',
     printOutput: false,
-    isError: false
+    isError: false,
+    function: printHelp
   }
 ];
 
 function printDir(e) {
-  return buildOutputObject('help.txt', false, false);
+  return [buildOutputObject('help.txt', false, false)];
 }
 
 function clear(e) {
-  return buildOutputObject('CLEAR', false, false);
+  return [buildOutputObject('CLEAR', false, false)];
 }
 
 function printFile(e) {
   const fileName = e.input.split(' ')[1];
-  if (fileName === 'help.txt') return buildOutputObject(helptxt, false, false);
-  return buildOutputObject('File not found.', true, false);
+  let output = buildOutputObject('File not found.', true, false);
+  if (fileName === 'help.txt') {
+    output = buildOutputObject(helptxt, false, false);
+  }
+  return [output];
+}
+
+function printHelp(e) {
+  let outputObjects = commands.map(command => {
+    return buildOutputObject(command.name + ' - ' + command.help, false, false);
+  });
+  return outputObjects;
 }
 
 export { commands };

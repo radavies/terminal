@@ -1,8 +1,10 @@
 .TerminalContainer {
   width: 50%;
+  min-width: 211px;
   background-color: black;
   margin: 2rem auto;
-  min-height: 800px;
+  height: 550px;
   padding: 1rem;
   border: 0.4rem solid #202020;
+  overflow-y: auto;
 }
