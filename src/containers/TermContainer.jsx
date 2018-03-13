@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { parseCommand } from '../logic/CommandParser';
+import Game from '../logic/Game';
 import { buildOutputObject } from '../logic/utils';
 
 import TermInput from '../components/TermInput/TermInput';
@@ -17,6 +17,7 @@ class TermContainer extends Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onTermInputChange = this.onTermInputChange.bind(this);
+    this.game = new Game();
   }
 
   onTermInputChange(termInput) {
@@ -26,7 +27,7 @@ class TermContainer extends Component {
   onSubmit(e) {
     let { termInput, termOutput } = this.state;
     e.preventDefault();
-    const forOutput = parseCommand(termInput);
+    const forOutput = this.game.processCommand(termInput);
 
     let cleared = false;
     forOutput.forEach(outputObject => {
