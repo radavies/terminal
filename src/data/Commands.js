@@ -1,5 +1,5 @@
-import { helptxt } from './storyFiles';
-import { buildOutputObject } from '../logic/utils';
+import { storyFiles } from './storyFiles';
+import { buildOutputObject, generateGibberish } from '../logic/utils';
 
 const commands = [
   {
@@ -132,11 +132,26 @@ const commands = [
     printOutput: false,
     isError: false,
     function: printHelp
+  },
+  {
+    name: 'exploit1',
+    alt: null,
+    regex: RegExp(/^d2hpbGUodHJ1ZSl7ZG9fZXhwbG9pdCgpfQ==$/),
+    output: 'EXPLOIT_ONE',
+    help: '',
+    printOutput: false,
+    isError: false,
+    function: exploit_one
   }
 ];
 
 function printDir(e) {
-  return [buildOutputObject('help.txt', false, false)];
+  let output = [];
+  const currentDir = e.directory.getCurrentDir();
+  currentDir.contents.forEach(content => {
+    output.push(buildOutputObject(content, false, false));
+  });
+  return output;
 }
 
 function clear(e) {
@@ -145,18 +160,41 @@ function clear(e) {
 
 function printFile(e) {
   const fileName = e.input.split(' ')[1];
+  const currentDir = e.directory.getCurrentDir();
   let output = buildOutputObject('File not found.', true, false);
-  if (fileName === 'help.txt') {
-    output = buildOutputObject(helptxt, false, false);
+
+  if (currentDir.contents.indexOf(fileName) !== -1) {
+    const files = storyFiles.filter(file => file.fileName === fileName);
+    if (files !== null && files.length !== 0) {
+      const fileToUse = files[0];
+      output = buildOutputObject(fileToUse.text, false, false);
+    }
   }
   return [output];
 }
 
 function printHelp(e) {
-  let outputObjects = commands.map(command => {
-    return buildOutputObject(command.name + ' - ' + command.help, false, false);
-  });
+  let outputObjects = commands
+    .filter(command => command.help !== '')
+    .map(command => {
+      return buildOutputObject(
+        command.name + ' - ' + command.help,
+        false,
+        false
+      );
+    });
   return outputObjects;
+}
+
+function exploit_one(e) {
+  if (e.level === 1 && e.directory.getCurrentDir().path === '/') {
+    let output = [];
+    for (let counter = 0; counter <= 100; counter++) {
+      output.push(buildOutputObject(generateGibberish(), true, false));
+    }
+    return output;
+  }
+  return null;
 }
 
 export { commands };

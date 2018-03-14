@@ -6,7 +6,7 @@ const notACommand =
 const anErrorOccured = 'An error occured while processing your command.';
 const levelOneResponse = 'Access Denied';
 
-function parseCommand(input, level) {
+function parseCommand(input, level, directory) {
   if (input !== '') {
     let output = [
       buildOutputObject("'" + input + "'" + notACommand, false, false)
@@ -21,7 +21,12 @@ function parseCommand(input, level) {
         }
         output = [buildOutputObject(outputText, commandToUse.isError, false)];
       } else {
-        output = getCommandFunctionOutput(commandToUse, input);
+        output = getCommandFunctionOutput(
+          commandToUse,
+          input,
+          level,
+          directory
+        );
       }
     }
     return output;
@@ -30,11 +35,19 @@ function parseCommand(input, level) {
   }
 }
 
-function getCommandFunctionOutput(commandObject, input) {
+function getCommandFunctionOutput(commandObject, input, level, directory) {
   if (commandObject.function !== undefined && commandObject.function !== null) {
-    return commandObject.function({ command: commandObject, input: input });
+    const commandOutput = commandObject.function({
+      command: commandObject,
+      input: input,
+      level: level,
+      directory: directory
+    });
+    if (commandOutput !== null) {
+      return commandOutput;
+    }
   }
-  return buildOutputObject(anErrorOccured, true, false);
+  return [buildOutputObject(anErrorOccured, true, false)];
 }
 
 function commandFilter(input) {
