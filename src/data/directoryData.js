@@ -1,15 +1,10 @@
 const directory = {
   path: '/',
-  contents: ['open_this.txt', 'dir1/', 'dir2/'],
+  contents: ['open_this.txt', 'protected/', '..'],
   children: [
     {
-      path: '/dir1',
+      path: '/protected',
       contents: ['test1.txt'],
-      children: []
-    },
-    {
-      path: '/dir2',
-      contents: ['test2.txt'],
       children: []
     }
   ]

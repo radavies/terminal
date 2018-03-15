@@ -25,7 +25,7 @@ const commands = [
   {
     name: 'cd',
     alt: null,
-    regex: RegExp(/^cd\s[\w\d\s.\\/]+$/),
+    regex: RegExp(/^cd\s[\w\d\s.\\/~]+$/),
     output: "You're not going anywhere.",
     help: 'Change directory.',
     printOutput: true,
@@ -34,7 +34,7 @@ const commands = [
   {
     name: 'sudo',
     alt: null,
-    regex: RegExp(/^sudo[\w\d\s.\\/]*$/),
+    regex: RegExp(/^sudo[\w\d\s.\\/~]*$/),
     output: "I don't think so...",
     help:
       'Run command with the security privileges of the superuser (Super User DO).',
@@ -44,7 +44,7 @@ const commands = [
   {
     name: 'open',
     alt: 'cat',
-    regex: RegExp(/^(cat|open)[\w\d\s.\\/]*$/),
+    regex: RegExp(/^(cat|open)[\w\d\s.\\/~]*$/),
     output: 'PRINT-FILE',
     help: 'Prints a files contents to the screen.',
     printOutput: false,
@@ -63,7 +63,7 @@ const commands = [
   {
     name: 'touch',
     alt: null,
-    regex: RegExp(/^touch[\w\d\s.\\/]*$/),
+    regex: RegExp(/^touch[\w\d\s.\\/~]*$/),
     output: "Please don't pollute my file system.",
     help: 'Create a new file.',
     printOutput: true,
@@ -72,7 +72,7 @@ const commands = [
   {
     name: 'mkdir',
     alt: null,
-    regex: RegExp(/^mkdir[\w\d\s.\\/]*$/),
+    regex: RegExp(/^mkdir[\w\d\s.\\/~]*$/),
     output: "Please don't pollute my file system.",
     help: 'Create new directory.',
     printOutput: true,
@@ -90,7 +90,7 @@ const commands = [
   {
     name: 'rm',
     alt: null,
-    regex: RegExp(/^rm[\w\d\s.\\/]*$/),
+    regex: RegExp(/^rm[\w\d\s.\\/~]*$/),
     output: 'Lets leave things where they are.',
     help: 'Remove a file.',
     printOutput: true,
@@ -99,7 +99,7 @@ const commands = [
   {
     name: 'cp',
     alt: null,
-    regex: RegExp(/^cp[\w\d\s.\\/]*$/),
+    regex: RegExp(/^cp[\w\d\s.\\/~]*$/),
     output: 'Lets leave things how they are.',
     help: 'Copy file to file.',
     printOutput: true,
@@ -108,7 +108,7 @@ const commands = [
   {
     name: 'mv',
     alt: null,
-    regex: RegExp(/^mv[\w\d\s.\\/]*$/),
+    regex: RegExp(/^mv[\w\d\s.\\/~]*$/),
     output: 'Lets leave things where they are.',
     help: 'Copy file to file.',
     printOutput: true,
@@ -117,7 +117,7 @@ const commands = [
   {
     name: 'grep',
     alt: null,
-    regex: RegExp(/^grep[\w\d\s.\\/]*$/),
+    regex: RegExp(/^grep[\w\d\s.\\/~]*$/),
     output: 'No. Just no.',
     help: 'Search for all lines that contain the pattern.',
     printOutput: true,
@@ -149,25 +149,25 @@ function printDir(e) {
   let output = [];
   const currentDir = e.directory.getCurrentDir();
   currentDir.contents.forEach(content => {
-    output.push(buildOutputObject(content, false, false));
+    output.push(buildOutputObject(content, false, false, 0));
   });
   return output;
 }
 
 function clear(e) {
-  return [buildOutputObject('CLEAR', false, false)];
+  return [buildOutputObject('CLEAR', false, false, 0)];
 }
 
 function printFile(e) {
   const fileName = e.input.split(' ')[1];
   const currentDir = e.directory.getCurrentDir();
-  let output = buildOutputObject('File not found.', true, false);
+  let output = buildOutputObject('File not found.', true, false, 0);
 
   if (currentDir.contents.indexOf(fileName) !== -1) {
     const files = storyFiles.filter(file => file.fileName === fileName);
     if (files !== null && files.length !== 0) {
       const fileToUse = files[0];
-      output = buildOutputObject(fileToUse.text, false, false);
+      output = buildOutputObject(fileToUse.text, false, false, 0);
     }
   }
   return [output];
@@ -180,7 +180,8 @@ function printHelp(e) {
       return buildOutputObject(
         command.name + ' - ' + command.help,
         false,
-        false
+        false,
+        0
       );
     });
   return outputObjects;
@@ -189,8 +190,25 @@ function printHelp(e) {
 function exploit_one(e) {
   if (e.level === 1 && e.directory.getCurrentDir().path === '/') {
     let output = [];
-    for (let counter = 0; counter <= 100; counter++) {
-      output.push(buildOutputObject(generateGibberish(), true, false));
+    for (let counter = 1; counter <= 43; counter++) {
+      output.push(
+        buildOutputObject(generateGibberish(), true, false, counter * 150)
+      );
+    }
+
+    output.push(buildOutputObject('*********************', true, false, 6500));
+    output.push(buildOutputObject("YOu D1d 1t, wE'rE l..", true, false, 7500));
+    output.push(buildOutputObject('sing c0-n.ec*t!on ~._', true, false, 8500));
+    output.push(buildOutputObject('A((E55 Gr@n7eD __.~~', true, false, 9500));
+    output.push(buildOutputObject('e^T$r pr0tE-teD __.~~', true, false, 10500));
+    output.push(buildOutputObject('dir*t0ry Re-e5t@B|!_h', true, false, 11500));
+    output.push(buildOutputObject('c0-n.ec*t!£n T4eRe ..', true, false, 12500));
+    output.push(buildOutputObject('*********EOF*********', true, false, 13500));
+
+    for (let counter = 97; counter <= 150; counter++) {
+      output.push(
+        buildOutputObject(generateGibberish(), true, false, counter * 150)
+      );
     }
     return output;
   }

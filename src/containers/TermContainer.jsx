@@ -41,7 +41,7 @@ class TermContainer extends Component {
       }
     });
     if (!cleared) {
-      termOutput.push(buildOutputObject(termInput, false, true));
+      termOutput.push(buildOutputObject(termInput, false, true, 0));
     }
 
     this.setState(() => ({ termOutput, termInput: '' }));
@@ -62,6 +62,7 @@ class TermContainer extends Component {
           key={counter}
           isError={output.isError}
           addCarrot={output.addCarrot}
+          wait={output.wait}
         />
       );
     });

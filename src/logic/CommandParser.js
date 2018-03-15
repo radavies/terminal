@@ -4,22 +4,24 @@ import { buildOutputObject } from './utils';
 const notACommand =
   ' is not recognized as an internal or external command, operable program or batch file.';
 const anErrorOccured = 'An error occured while processing your command.';
-const levelOneResponse = 'Access Denied';
+const accessDenied = 'Access Denied';
 
 function parseCommand(input, level, directory) {
   if (input !== '') {
     let output = [
-      buildOutputObject("'" + input + "'" + notACommand, false, false)
+      buildOutputObject("'" + input + "'" + notACommand, false, false, 0)
     ];
     const commandsFiltered = commands.filter(commandFilter(input));
     if (commandsFiltered !== null && commandsFiltered.length !== 0) {
       const commandToUse = commandsFiltered[0];
       if (commandToUse.printOutput) {
         let outputText = commandToUse.output;
-        if (level === 0) {
-          outputText = levelOneResponse;
+        if (level < 3) {
+          outputText = accessDenied;
         }
-        output = [buildOutputObject(outputText, commandToUse.isError, false)];
+        output = [
+          buildOutputObject(outputText, commandToUse.isError, false, 0)
+        ];
       } else {
         output = getCommandFunctionOutput(
           commandToUse,
@@ -31,7 +33,7 @@ function parseCommand(input, level, directory) {
     }
     return output;
   } else {
-    return [buildOutputObject('', false, false)];
+    return [buildOutputObject('', false, false, 0)];
   }
 }
 
@@ -47,7 +49,7 @@ function getCommandFunctionOutput(commandObject, input, level, directory) {
       return commandOutput;
     }
   }
-  return [buildOutputObject(anErrorOccured, true, false)];
+  return [buildOutputObject(anErrorOccured, true, false, 0)];
 }
 
 function commandFilter(input) {

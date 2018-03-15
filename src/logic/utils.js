@@ -1,8 +1,9 @@
-function buildOutputObject(print, isError, addCarrot) {
+function buildOutputObject(print, isError, addCarrot, wait) {
   return {
     print: print,
     isError: isError,
-    addCarrot: addCarrot
+    addCarrot: addCarrot,
+    wait: wait
   };
 }
 
@@ -14,7 +15,7 @@ function generateGibberish() {
     const rand = Math.floor(Math.random() * chars.length + 0);
     gibberish.push(chars[rand]);
   }
-  return gibberish;
+  return gibberish.join('');
 }
 
 export { buildOutputObject, generateGibberish };

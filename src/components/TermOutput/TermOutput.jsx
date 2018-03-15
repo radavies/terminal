@@ -1,32 +1,59 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import './TermOutput.css';
 
-//https://stackoverflow.com/questions/30803440/delayed-rendering-of-react-components
-//http://jsbin.com/gepujalepa/1/edit?html,css,js,output
+class TermOutput extends Component {
+  constructor(props) {
+    super(props);
 
-const TermOutput = props => {
-  const { termOutput, isLatest, isError, addCarrot } = props;
-  let cssClass = 'outputLine';
-  if (isLatest) {
-    cssClass += ' latest';
-  }
-  if (isError) {
-    cssClass += ' error';
+    const { termOutput, isLatest, isError, addCarrot } = props;
+
+    this.state = {
+      hidden: ' hidden',
+      termOutput: termOutput,
+      isLatest: isLatest,
+      isError: isError,
+      addCarrot: addCarrot
+    };
   }
 
-  let carrot = '';
-  if (addCarrot) {
-    carrot = '> ';
+  componentWillMount() {
+    var that = this;
+    setTimeout(function() {
+      that.show();
+    }, that.props.wait);
   }
-  return (
-    <p className={cssClass}>
-      {carrot}
-      {termOutput}
-    </p>
-  );
-};
+
+  show() {
+    this.setState({ hidden: '' });
+  }
+
+  render() {
+    const { termOutput, isLatest, isError, addCarrot, hidden } = this.state;
+    let cssClass = 'outputLine';
+    if (isLatest) {
+      cssClass += ' latest';
+    }
+    if (isError) {
+      cssClass += ' error';
+    }
+
+    cssClass += hidden;
+
+    let carrot = '';
+    if (addCarrot) {
+      carrot = '> ';
+    }
+
+    return (
+      <p className={cssClass}>
+        {carrot}
+        {termOutput}
+      </p>
+    );
+  }
+}
 
 TermOutput.propTypes = {
   termOutput: PropTypes.string,
