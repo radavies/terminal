@@ -1,3 +1,10 @@
+import { storyText } from '../data/storyFiles';
+
+const notACommand =
+  ' is not recognized as an internal or external command, operable program or batch file.';
+const anErrorOccured = 'An error occured while processing your command.';
+const accessDenied = 'Access Denied';
+
 function buildOutputObject(print, isError, addCarrot, wait) {
   return {
     print: print,
@@ -18,4 +25,29 @@ function generateGibberish() {
   return gibberish.join('');
 }
 
-export { buildOutputObject, generateGibberish };
+function buildProtectedDirStoryText() {
+  let output = [];
+
+  const protectedDirText = storyText.filter(text => text.name === 'protected');
+
+  if (protectedDirText !== null && protectedDirText.length > 0) {
+    let textToUse = protectedDirText[0];
+
+    let timeout = textToUse.lines.length * 2500;
+    textToUse.lines.forEach(line => {
+      output.push(buildOutputObject(line, false, false, timeout));
+      timeout -= 2500;
+    });
+  }
+
+  return output;
+}
+
+export {
+  notACommand,
+  anErrorOccured,
+  accessDenied,
+  buildOutputObject,
+  generateGibberish,
+  buildProtectedDirStoryText
+};

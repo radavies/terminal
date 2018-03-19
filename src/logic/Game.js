@@ -22,6 +22,12 @@ class Game {
         input === 'd2hpbGUodHJ1ZSl7ZG9fZXhwbG9pdCgpfQ=='
       ) {
         this.level = 2;
+      } else if (
+        this.level === 2 &&
+        (input === 'cd protected' || input === 'cd protected/')
+      ) {
+        this.fakeDirectory.currentDir = this.fakeDirectory.currentDir.children[0];
+        this.level = 3;
       }
     }
   }

@@ -1,10 +1,10 @@
 import { commands } from '../data/Commands';
-import { buildOutputObject } from './utils';
-
-const notACommand =
-  ' is not recognized as an internal or external command, operable program or batch file.';
-const anErrorOccured = 'An error occured while processing your command.';
-const accessDenied = 'Access Denied';
+import {
+  notACommand,
+  anErrorOccured,
+  accessDenied,
+  buildOutputObject
+} from './utils';
 
 function parseCommand(input, level, directory) {
   if (input !== '') {

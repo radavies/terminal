@@ -1,5 +1,10 @@
 import { storyFiles } from './storyFiles';
-import { buildOutputObject, generateGibberish } from '../logic/utils';
+import {
+  accessDenied,
+  buildOutputObject,
+  generateGibberish,
+  buildProtectedDirStoryText
+} from '../logic/utils';
 
 const commands = [
   {
@@ -26,10 +31,11 @@ const commands = [
     name: 'cd',
     alt: null,
     regex: RegExp(/^cd\s[\w\d\s.\\/~]+$/),
-    output: "You're not going anywhere.",
+    output: 'CHANGE-DIR',
     help: 'Change directory.',
-    printOutput: true,
-    isError: true
+    printOutput: false,
+    isError: false,
+    function: changeDir
   },
   {
     name: 'sudo',
@@ -213,6 +219,30 @@ function exploit_one(e) {
     return output;
   }
   return null;
+}
+
+function changeDir(e) {
+  if (e.level === 2) {
+    const dirName = e.input.split(' ')[1];
+    const currentDir = e.directory.getCurrentDir();
+    console.log(dirName);
+    console.log(currentDir);
+    if (
+      currentDir.contents.indexOf(dirName) > -1 ||
+      currentDir.contents.indexOf(dirName + '/') > -1
+    ) {
+      if (dirName === 'protected' || dirName === 'protected/') {
+        let output = buildProtectedDirStoryText();
+        output.push(buildOutputObject('~/protected', false, false, 0));
+        return output;
+      }
+    }
+  }
+  let outputText = "You're not going anywhere.";
+  if (e.level < 3) {
+    outputText = accessDenied;
+  }
+  return [buildOutputObject(outputText, true, false, 0)];
 }
 
 export { commands };
