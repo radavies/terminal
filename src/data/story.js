@@ -28,7 +28,7 @@ Open that file and type the contents into the terminal.",
     Unfortunatly, they managed to tap into our downlink and corrupt our equipment. \
     If we connect again it'll kill you. \
     We'll try to rebuld and contact you again, I'll be honest though, that might take years. \
-    We had a look at thier systems while we had access - they still aren't able to track your signal like we can. \
+    We had a look at their systems while we had access - they still aren't able to track your signal like we can. \
     You should be safe until we can connect again. \
     To be on the safe side don't use this terminal again (it'll crash once you open this file). \
     I'm sorry we don't have more time to explain what is going on. \
