@@ -1,7 +1,7 @@
 # Terminal
 
-Playing around with react to make a webpage that works kinda like a terminal screen.
+Started using react to make a webpage that worked like a terminal screen.
 
-Looks like I'm making it into a "game" type thing...
+Project is now a short "game" inspired by old text adventures and modern Sci-fi.
 
 `npm start` to run

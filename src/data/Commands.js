@@ -1,6 +1,5 @@
-import { storyFiles } from './storyFiles';
+import { accessDenied, storyFiles, yourPid, helpPid, agentPid } from './story';
 import {
-  accessDenied,
   buildOutputObject,
   generateGibberish,
   buildProtectedDirStoryText
@@ -148,6 +147,16 @@ const commands = [
     printOutput: false,
     isError: false,
     function: exploit_one
+  },
+  {
+    name: 'kill',
+    alt: null,
+    regex: RegExp(/^kill\s[\d]*$/),
+    output: 'KILL-PID',
+    help: 'Kills a specified process.',
+    printOutput: false,
+    isError: false,
+    function: kill
   }
 ];
 
@@ -222,11 +231,9 @@ function exploit_one(e) {
 }
 
 function changeDir(e) {
-  if (e.level === 2) {
+  if (e.level === 2 || e.level === 4) {
     const dirName = e.input.split(' ')[1];
     const currentDir = e.directory.getCurrentDir();
-    console.log(dirName);
-    console.log(currentDir);
     if (
       currentDir.contents.indexOf(dirName) > -1 ||
       currentDir.contents.indexOf(dirName + '/') > -1
@@ -236,10 +243,45 @@ function changeDir(e) {
         output.push(buildOutputObject('~/protected', false, false, 0));
         return output;
       }
+      if (dirName === 'exit' || dirName === 'exit/') {
+        return [buildOutputObject('~/exit', false, false, 0)];
+      }
     }
   }
   let outputText = "You're not going anywhere.";
-  if (e.level < 3) {
+  if (e.level !== 3) {
+    outputText = accessDenied;
+  }
+  return [buildOutputObject(outputText, true, false, 0)];
+}
+
+function kill(e) {
+  if (e.level === 3) {
+    const pid = e.input.split(' ')[1];
+    let output = [];
+    if (pid === yourPid) {
+      output.push(
+        buildOutputObject('Terminal session disconnected.', true, false, 0)
+      );
+    } else if (pid === helpPid) {
+      output.push(
+        buildOutputObject(
+          "Peer to peer connection with 'white_rabbit' disconnected.",
+          true,
+          false,
+          0
+        )
+      );
+    } else if (pid === agentPid) {
+      return [buildOutputObject('PID ' + pid + ' killed.', false, false, 0)];
+    } else {
+      return [buildOutputObject('PID not found.', true, false, 0)];
+    }
+    output.push(buildOutputObject('PID ' + pid + ' killed.', false, false, 0));
+    return output;
+  }
+  let outputText = "I can't let you do that.";
+  if (e.level !== 3) {
     outputText = accessDenied;
   }
   return [buildOutputObject(outputText, true, false, 0)];

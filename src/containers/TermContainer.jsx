@@ -35,6 +35,8 @@ class TermContainer extends Component {
         if (outputObject.print === 'CLEAR') {
           termOutput = [];
           cleared = true;
+        } else if (outputObject.print === 'GAME-OVER') {
+          cleared = true;
         } else {
           termOutput.push(outputObject);
         }

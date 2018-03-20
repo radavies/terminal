@@ -1,10 +1,6 @@
 import { commands } from '../data/Commands';
-import {
-  notACommand,
-  anErrorOccured,
-  accessDenied,
-  buildOutputObject
-} from './utils';
+import { buildOutputObject } from './utils';
+import { notACommand, anErrorOccured, accessDenied } from '../data/story';
 
 function parseCommand(input, level, directory) {
   if (input !== '') {
@@ -16,7 +12,7 @@ function parseCommand(input, level, directory) {
       const commandToUse = commandsFiltered[0];
       if (commandToUse.printOutput) {
         let outputText = commandToUse.output;
-        if (level < 3) {
+        if (level !== 3) {
           outputText = accessDenied;
         }
         output = [

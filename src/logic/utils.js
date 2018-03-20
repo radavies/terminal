@@ -1,9 +1,9 @@
-import { storyText } from '../data/storyFiles';
-
-const notACommand =
-  ' is not recognized as an internal or external command, operable program or batch file.';
-const anErrorOccured = 'An error occured while processing your command.';
-const accessDenied = 'Access Denied';
+import {
+  notACommand,
+  anErrorOccured,
+  accessDenied,
+  storyText
+} from '../data/story';
 
 function buildOutputObject(print, isError, addCarrot, wait) {
   return {
